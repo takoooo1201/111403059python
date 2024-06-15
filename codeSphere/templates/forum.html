@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>討論區</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='forum.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+</head>
+<body>
+    <div class="page-container">        
+        <section class="posts" id="posts">
+            <h2>討論區</h2>
+            {% for discussion in discussions %}
+            <div class="post">
+                <!-- title -->
+                <h3>{{ discussion[2] }}</h3>
+                <!-- content -->
+                <p>{{ discussion[3] }}</p>
+                <!-- author -->
+                <div class="post-author"><span>— {{ discussion[8] }}</span></div>
+            </div>
+            {% endfor %}
+        </section>
+        <section class="new-post">
+            <h2>發布新討論</h2>
+            <form action="{{ url_for('add_discussion') }}" method="post">
+                <label for="title">標題:</label>
+                <input type="text" id="title" name="title" required>
+                <label for="content">內容:</label>
+                <textarea id="content" name="content" required></textarea>
+                <button type="submit">發布</button>
+            </form>
+        </section>
+    </div>
+    <script src="{{ url_for('static', filename='profile.js') }}"></script>
+    <script src="{{ url_for('static', filename='navbar.js') }}"></script>
+    <script>
+        // Define global variable to pass 'username' from Flask session to external JS
+        window.username = "{{ session['username'] if 'username' in session else 'Guest' }}";
+    </script>
+</body>
+</html>
